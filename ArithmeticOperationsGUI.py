@@ -1,101 +1,75 @@
-import pygame
-import random
+import tkinter as tk
 
-# Initialize Pygame
-pygame.init()
+def add():
+    try:
+        num1 = float(entry1.get())
+        num2 = float(entry2.get())
+        
+        result_label.config(text=f"Result: {result}")
+    except ValueError:
+        result_label.config(text="Please enter valid numbers.")
 
-# Screen dimensions
-SCREEN_WIDTH = 600
-SCREEN_HEIGHT = 400
+def subtract():
+    try:
+        num1 = float(entry1.get())
+        num2 = float(entry2.get())
+    
+        result_label.config(text=f"Result: {result}")
+    except ValueError:
+        result_label.config(text="Please enter valid numbers.")
 
-# Colors
-WHITE = (255, 255, 255)
-GREEN = (0, 255, 0)
-RED = (255, 0, 0)
-BLACK = (0, 0, 0)
+def multiply():
+    try:
+        num1 = float(entry1.get())
+        num2 = float(entry2.get())
+        
+        result_label.config(text=f"Result: {result}")
+    except ValueError:
+        result_label.config(text="Please enter valid numbers.")
 
-# Snake properties
-snake_size = 20
-snake_speed = 5 
+def divide():
+    try:
+        num1 = float(entry1.get())
+        num2 = float(entry2.get())
+        if num2 != 0:
+            
+            result_label.config(text=f"Result: {result}")
+        else:
+            result_label.config(text="Cannot divide by zero.")
+    except ValueError:
+        result_label.config(text="Please enter valid numbers.")
 
-snake_x = SCREEN_WIDTH // 2
-snake_y = SCREEN_HEIGHT // 2
-snake_body = []
-snake_length = 1
+# Create the main window
+root = tk.Tk()
+root.title("Simple Arithmetic Calculator")
 
-# Food properties
-food_x = round(random.randrange(0, SCREEN_WIDTH - snake_size) / snake_size) * snake_size
-food_y = round(random.randrange(0, SCREEN_HEIGHT - snake_size) / snake_size) * snake_size
+# Entry for the first number
+entry1 = tk.Entry(root, font=('Arial', 14))
+entry1.pack(pady=10)
 
-# Create screen
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Snake Game")
+# Entry for the second number
+entry2 = tk.Entry(root, font=('Arial', 14))
+entry2.pack(pady=10)
 
-# Clock
-clock = pygame.time.Clock()
+# Addition button
+add_button = tk.Button(root, text="Add", command=add, font=('Arial', 14))
+add_button.pack(pady=5)
 
-# Direction
-direction = "RIGHT"
-change_to = direction
+# Subtraction button
+subtract_button = tk.Button(root, text="Subtract", command=subtract, font=('Arial', 14))
+subtract_button.pack(pady=5)
 
-# Main game loop
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                if direction != "DOWN":
-                    change_to = "UP"
-            elif event.key == pygame.K_DOWN:
-                if direction != "UP":
-                    change_to = "DOWN"
-            elif event.key == pygame.K_LEFT:
-                if direction != "RIGHT":
-                    change_to = "LEFT"
-            elif event.key == pygame.K_RIGHT:
-                if direction != "LEFT":
-                    change_to = "RIGHT"
+# Multiplication button
+multiply_button = tk.Button(root, text="Multiply", command=multiply, font=('Arial', 14))
+multiply_button.pack(pady=5)
 
-    direction = change_to
+# Division button
+divide_button = tk.Button(root, text="Divide", command=divide, font=('Arial', 14))
+divide_button.pack(pady=5)
 
-    if direction == "UP":
-        snake_y -= snake_size
-    if direction == "DOWN":
-        snake_y += snake_size
-    if direction == "LEFT":
-        snake_x -= snake_size
-    if direction == "RIGHT":
-        snake_x += snake_size
+# Label to display the result
+result_label = tk.Label(root, text="Result: ", font=('Arial', 14))
+result_label.pack(pady=20)
 
-    # Snake body growing mechanism
-    snake_body.append([snake_x, snake_y])
-    if len(snake_body) > snake_length:
-        del snake_body[0]
-
-    # Snake collision with itself
-    for block in snake_body[:-1]:
-        if block == [snake_x, snake_y]:
-            running = False
-
-
-
-    # Fill screen with black background
-    screen.fill(BLACK)
-
-    # Draw snake
-    for block in snake_body:
-        pygame.draw.rect(screen, GREEN, [block[0], block[1], snake_size, snake_size])
-
-    # Draw food
-    pygame.draw.rect(screen, RED, [food_x, food_y, snake_size, snake_size])
-
-    # Update the display
-    pygame.display.flip()
-
-    # Control game speed
-    clock.tick(snake_speed)
-
-# Quit Pygame
-pygame.quit()
+# Run the main loop
+root.mainloop()
